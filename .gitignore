@@ -1,0 +1,61 @@
+# Environment variables
+.env
+.env.local
+.env.production
+.env.azure
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Uploaded files (handled by Azure Blob Storage in production)
+uploads/
+generated/
+*.pdf
+*.doc
+*.docx
+
+# Test files
+test_pdf.py
+PDF_UPDATE_SUMMARY.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Azure
+*.PublishSettings
+.azure/
+
+# Logs
+*.log
+logs/
+app-logs.zip

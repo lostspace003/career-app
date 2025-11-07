@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tech Career Path Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #6366f1;
+            background-color: #f8fafc;
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #6366f1;
+            background-color: #eef2ff;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-white mb-4">
+                <i class="fas fa-robot mr-3"></i>AI Tech Career Path Finder
+            </h1>
+            <p class="text-xl text-white/90">Your personalized journey to becoming an AI Tech Freak</p>
+        </div>
+
+        <!-- Questionnaire Form -->
+        <div id="questionnaireSection" class="max-w-4xl mx-auto glass rounded-2xl shadow-2xl p-8 mb-8">
+            <form id="careerForm">
+                <!-- Section 1: Experience & Role -->
+                <div class="form-section active" id="section1">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center mr-3">1</span>
+                        Experience & Current Role
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                What is your current experience level in technology?
+                            </label>
+                            <select name="experience_level" required 
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                <option value="">Select your experience level</option>
+                                <option value="absolute-beginner">Absolute Beginner (No tech background)</option>
+                                <option value="beginner">Beginner (Basic programming knowledge)</option>
+                                <option value="intermediate">Intermediate (1-3 years experience)</option>
+                                <option value="advanced">Advanced (3-5 years experience)</option>
+                                <option value="expert">Expert (5+ years experience)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                What is your current job role?
+                            </label>
+                            <input type="text" name="job_role" required placeholder="e.g., Software Engineer, Student, Data Analyst"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                What are your current technical skills? (Optional)
+                            </label>
+                            <textarea name="current_skills" rows="3" placeholder="e.g., Python, JavaScript, SQL, etc."
+                                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end mt-8">
+                        <button type="button" onclick="nextSection(2)" 
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg transition">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 2: Interests & Goals -->
+                <div class="form-section" id="section2">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="bg-purple-600 text-white w-10 h-10 rounded-full flex items-center justify-center mr-3">2</span>
+                        Interests & Goals
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                What areas of AI interest you most? (Comma-separated)
+                            </label>
+                            <input type="text" name="interests" required 
+                                   placeholder="e.g., Machine Learning, NLP, Computer Vision, Robotics"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                What are your career goals in AI?
+                            </label>
+                            <textarea name="goals" required rows="4" 
+                                      placeholder="e.g., Become an ML Engineer, Build AI products, Research in AI..."
+                                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                Preferred Technologies/Frameworks? (Optional)
+                            </label>
+                            <input type="text" name="preferred_technologies" 
+                                   placeholder="e.g., TensorFlow, PyTorch, scikit-learn"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="prevSection(1)" 
+                                class="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-8 py-3 rounded-lg transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="button" onclick="nextSection(3)" 
+                                class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-lg transition">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 3: Learning Preferences -->
+                <div class="form-section" id="section3">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center mr-3">3</span>
+                        Learning Preferences
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                What is your preferred learning style?
+                            </label>
+                            <select name="learning_style" required 
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent">
+                                <option value="">Select learning style</option>
+                                <option value="video-courses">Video Courses & Tutorials</option>
+                                <option value="reading">Books & Documentation</option>
+                                <option value="hands-on">Hands-on Projects</option>
+                                <option value="interactive">Interactive Platforms (Kaggle, LeetCode)</option>
+                                <option value="mixed">Mixed Approach</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                How much time can you commit per week?
+                            </label>
+                            <select name="time_commitment" required 
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent">
+                                <option value="">Select time commitment</option>
+                                <option value="5-hours">5 hours or less</option>
+                                <option value="5-10-hours">5-10 hours</option>
+                                <option value="10-20-hours">10-20 hours</option>
+                                <option value="20-plus-hours">20+ hours (Full-time learning)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="prevSection(2)" 
+                                class="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-8 py-3 rounded-lg transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="button" onclick="nextSection(4)" 
+                                class="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-8 py-3 rounded-lg transition">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 4: Resume Upload -->
+                <div class="form-section" id="section4">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center mr-3">4</span>
+                        Resume/CV Upload (Optional)
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-gray-600 mb-4">
+                                Upload your resume or CV to help us better understand your background and provide more personalized recommendations.
+                            </p>
+                            
+                            <div class="file-upload-area rounded-lg p-8 text-center cursor-pointer" 
+                                 id="fileUploadArea"
+                                 ondrop="handleDrop(event)" 
+                                 ondragover="handleDragOver(event)" 
+                                 ondragleave="handleDragLeave(event)">
+                                <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
+                                <p class="text-gray-600 mb-2">
+                                    <span class="text-indigo-600 font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="text-sm text-gray-500">PDF, DOC, DOCX, or TXT (Max 10MB)</p>
+                                <input type="file" name="resume" id="resumeInput" accept=".pdf,.doc,.docx,.txt" 
+                                       class="hidden" onchange="handleFileSelect(event)">
+                            </div>
+                            
+                            <div id="fileInfo" class="mt-4 hidden">
+                                <div class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file-alt text-green-600 text-2xl mr-3"></i>
+                                        <div>
+                                            <p class="font-semibold text-gray-800" id="fileName"></p>
+                                            <p class="text-sm text-gray-600" id="fileSize"></p>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="removeFile()" 
+                                            class="text-red-600 hover:text-red-700">
+                                        <i class="fas fa-times text-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="prevSection(3)" 
+                                class="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-8 py-3 rounded-lg transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="submit" id="generateBtn"
+                                class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold px-8 py-3 rounded-lg transition shadow-lg">
+                            <i class="fas fa-magic mr-2"></i> Generate My Career Path
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="max-w-6xl mx-auto glass rounded-2xl shadow-2xl p-8 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-route mr-3 text-indigo-600"></i>Your Personalized Career Path
+                </h2>
+                <div class="flex gap-3">
+                    <button onclick="downloadPDF()" 
+                            class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition shadow-md">
+                        <i class="fas fa-download mr-2"></i> Download PDF
+                    </button>
+                    <button onclick="resetApp()" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition shadow-md">
+                        <i class="fas fa-redo mr-2"></i> Start Over
+                    </button>
+                </div>
+            </div>
+            
+            <div id="careerPlanContent" class="prose max-w-none">
+                <!-- Generated plan will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center z-50">
+            <div class="glass rounded-2xl p-8 max-w-md text-center">
+                <div class="loading mx-auto mb-4" style="width: 60px; height: 60px; border-width: 5px;"></div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Crafting Your Career Path...</h3>
+                <p class="text-gray-600">Our AI is analyzing your profile and creating a personalized plan.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPlan = null;
+        let currentProfile = null;
+
+        // Form navigation
+        function nextSection(sectionNum) {
+            const currentSection = document.querySelector('.form-section.active');
+            const inputs = currentSection.querySelectorAll('[required]');
+            
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.value) {
+                    isValid = false;
+                    input.classList.add('border-red-500');
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            currentSection.classList.remove('active');
+            document.getElementById(`section${sectionNum}`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevSection(sectionNum) {
+            document.querySelector('.form-section.active').classList.remove('active');
+            document.getElementById(`section${sectionNum}`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // File upload handling
+        document.getElementById('fileUploadArea').addEventListener('click', () => {
+            document.getElementById('resumeInput').click();
+        });
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                displayFileInfo(file);
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                const input = document.getElementById('resumeInput');
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                input.files = dataTransfer.files;
+                displayFileInfo(file);
+            }
+        }
+
+        function displayFileInfo(file) {
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            
+            fileName.textContent = file.name;
+            fileSize.textContent = `${(file.size / 1024).toFixed(2)} KB`;
+            fileInfo.classList.remove('hidden');
+        }
+
+        function removeFile() {
+            document.getElementById('resumeInput').value = '';
+            document.getElementById('fileInfo').classList.add('hidden');
+        }
+
+        // Form submission
+        document.getElementById('careerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            
+            // Show loading
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            document.getElementById('loadingOverlay').classList.add('flex');
+            
+            try {
+                const response = await fetch('/api/generate-plan', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to generate plan');
+                }
+                
+                const data = await response.json();
+                currentPlan = data.html_plan;
+                currentProfile = data.user_profile;
+                
+                // Display results
+                document.getElementById('careerPlanContent').innerHTML = data.html_plan;
+                document.getElementById('questionnaireSection').classList.add('hidden');
+                document.getElementById('resultsSection').classList.remove('hidden');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+            } catch (error) {
+                alert('Error generating career plan. Please try again. ' + error.message);
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loadingOverlay').classList.remove('flex');
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
+        });
+
+        // Download PDF
+        async function downloadPDF() {
+            if (!currentPlan) return;
+            
+            try {
+                const response = await fetch('/api/download-pdf', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        html_plan: currentPlan,
+                        user_profile: currentProfile
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to generate PDF');
+                }
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ai_career_plan_${new Date().getTime()}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+            } catch (error) {
+                alert('Error downloading PDF. Please try again.');
+                console.error('Error:', error);
+            }
+        }
+
+        // Reset application
+        function resetApp() {
+            if (confirm('Are you sure you want to start over? Your current plan will be lost.')) {
+                document.getElementById('careerForm').reset();
+                document.getElementById('resultsSection').classList.add('hidden');
+                document.getElementById('questionnaireSection').classList.remove('hidden');
+                
+                // Reset to first section
+                document.querySelectorAll('.form-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('section1').classList.add('active');
+                
+                // Clear file info
+                removeFile();
+                
+                currentPlan = null;
+                currentProfile = null;
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
