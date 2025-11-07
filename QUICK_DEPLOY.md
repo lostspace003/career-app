@@ -1,4 +1,4 @@
-# Azure Deployment Quick Reference
+# 1 Azure Deployment Quick Reference
 
 ## Quick Setup Commands
 
